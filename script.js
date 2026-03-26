@@ -89,11 +89,33 @@ function renderAssignments() {
 
         let text = `${a.title} (${course ? course.name : "No course"})`;
 
-        if (days === 0) text += " - Due Today ⚠️";
+        if (days === 0) text += " - Due Today";
         else if (days > 0) text += ` - ${days} days left`;
-        else text += " - Overdue ❌";
+        else text += " - Overdue";
 
-        li.textContent = text;
+        const span = document.createElement("span");
+        span.textContent = text;
+
+
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "🗑";
+        delBtn.onclick = () => deleteAssignment(a.id);
+
+
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "✏️";
+        editBtn.onclick = () => editAssignment(a.id);
+
+
+        const actions = document.createElement("div");
+        actions.appendChild(editBtn);
+        actions.appendChild(delBtn);
+
+        actions.style.float = "right";
+
+        li.appendChild(span);
+        li.appendChild(actions);
+        //li.textContent = text;
         list.appendChild(li);
     });
 }
@@ -109,3 +131,9 @@ document.getElementById("themeToggle").onclick = () => {
 
 renderCourses();
 renderAssignments();
+
+function deleteAssignment(id) {
+    assignments = assignments.filter(a => a.id !== id);
+    save();
+    renderAssignments();
+}
