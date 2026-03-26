@@ -132,8 +132,25 @@ document.getElementById("themeToggle").onclick = () => {
 renderCourses();
 renderAssignments();
 
+// Delete assignment function
 function deleteAssignment(id) {
     assignments = assignments.filter(a => a.id !== id);
+    save();
+    renderAssignments();
+}
+
+// Edit assignment function
+function editAssignment(id) {
+    const assignment = assignments.find(a => a.id === id);
+
+    const newTitle = prompt("Edit title:", assignment.title);
+    const newDeadline = prompt("Edit deadline (YYYY-MM-DD):", assignment.deadline);
+    const newPriority = prompt("Edit priority (low, medium, high):", assignment.priority);
+
+    if (newTitle) assignment.title = newTitle;
+    if (newDeadline) assignment.deadline = newDeadline;
+    if (newPriority) assignment.priority = newPriority;
+
     save();
     renderAssignments();
 }
